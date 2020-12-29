@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Provider(
+    return ChangeNotifierProvider(
       create: (context) {
         return AppProvider();
       },
@@ -33,10 +33,10 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DBHelper.dbHelper.getAllTask().then((value) {
-      AppProvider().setValue(DBHelper.dbHelper.allTasks);
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return Home();
-        }));
+      DBHelper.dbHelper.getAllTask();
+      Provider.of<AppProvider>(context,listen: false).setValue(DBHelper.dbHelper.allTasks);
+      Route route = MaterialPageRoute(builder: (context) => Home());
+      Navigator.pushReplacement(context, route);
     });
 
     // TODO: implement build

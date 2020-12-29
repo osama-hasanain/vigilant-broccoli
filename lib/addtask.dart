@@ -1,6 +1,9 @@
 import 'package:flutter_homework/db_helper.dart';
+import 'package:flutter_homework/home.dart';
 import 'package:flutter_homework/models/task.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_homework/provider/app_provider.dart';
+import 'package:provider/provider.dart';
 
 Task task = Task('', false);
 
@@ -47,7 +50,13 @@ class _AddTaskState extends State<AddTask> {
         onSubmitted: (value) {
           task.name = value;
           DBHelper.dbHelper.insertNewTask(task);
-          Navigator.pop(context);
+          DBHelper.dbHelper.getAllTask().then((value) {
+            DBHelper.dbHelper.getAllTask();
+            Provider.of<AppProvider>(context, listen: false)
+                .setValue(DBHelper.dbHelper.allTasks);
+            Route route = MaterialPageRoute(builder: (context) => Home());
+            Navigator.pushReplacement(context, route);
+          });
         },
       ),
     );

@@ -59,7 +59,7 @@ Widget tapViewTaps() {
       Tab(child: Text('Complete Tasks')),
       Tab(child: Text('InCompleteTasks'))
     ],
-    // isScrollable: true,
+    isScrollable: true,
   );
 }
 }

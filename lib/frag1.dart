@@ -22,29 +22,37 @@ class _Frag1State extends State<Frag1> {
   Widget build(BuildContext context) {
     taskItemList.clear();
 
-    if (db.allTasks.length == 0 && isFirstLoading) {
-      db.getAllTask();
-      isFirstLoading = !isFirstLoading;
-    }
+    // if (db.allTasks.length == 0 && isFirstLoading) {
+    //   db.getAllTask();
+    //   isFirstLoading = !isFirstLoading;
+    // }
 
     if(Provider.of<AppProvider>(context).tasks != null && isFirstLoading){
       isFirstLoading = !isFirstLoading;
-      context.watch<AppProvider>().tasks.forEach((task) {
+      Provider.of<AppProvider>(context).tasks.forEach((task) {
         setState(() {
           taskItemList.add(TaskItem(task, refreshFrag()));
         });
       });
+      Provider.of<AppProvider>(context).tasks.forEach((task) {
+        print(task.name.toString());
+      });
     }
 
-    db.allTasks.forEach((task) {
-      setState(() {
-        taskItemList.add(TaskItem(task, refreshFrag()));
-      });
-    });
+    // db.allTasks.forEach((task) {
+    //   setState(() {
+    //     taskItemList.add(TaskItem(task, refreshFrag()));
+    //   });
+    // });
      
 
-    return Container(
-        child: SingleChildScrollView(child: Column(children: taskItemList)));
+    return ChangeNotifierProvider(
+      create: (context) {
+        return AppProvider();
+      },
+          child: Container(
+          child: SingleChildScrollView(child: Column(children: taskItemList))),
+    );
   }
 
   refreshFrag() {
